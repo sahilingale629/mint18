@@ -26,12 +26,15 @@ const Homepage = () => {
   const [tokenList, setTokenList] = useState([
     { exchangeType: 1, tokens: ["17818"] }, // Initial token with exchangeType and token
   ]);
+
+  const [rows, setRows] = useState([]); // State to store added rows
+
   // const [{tok,es}, {settok] = useState(0);
   // const [es , setes]
   const apikey = "TJKT1ves";
   const clientcode = "S492372";
   const feedtype =
-    "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IlM0OTIzNzIiLCJpYXQiOjE3MzQwNzYwNzYsImV4cCI6MTczNDE2MjQ3Nn0.AJjqmWJMfyAfgg8npcn8nBQF38w_bB2nBhNkwKJSQZbYso3_qWt8XNvk-GpoeFGJE0vYXMqU7Dz_5zP9oF97kg";
+    "eyJhbGciOiJIUzUxMiJ9.eyJ1c2VybmFtZSI6IlM0OTIzNzIiLCJpYXQiOjE3MzQ0MTA0NDUsImV4cCI6MTczNDQ5Njg0NX0.TVmKP2kN1-IqdMmle1jyxQf4l2_4VWw6XDAu7-joScE0W-UaXHqcCUQRR6BS-k-zPg6hHLLoYNp1wVRYmRLTng";
 
   const fetch_url =
     "https://margincalculator.angelone.in/OpenAPI_File/files/OpenAPIScripMaster.json";
@@ -54,6 +57,22 @@ const Homepage = () => {
 
     saveCSV(); // Trigger the save on page load
   }, []);
+
+  const handleAddRow = () => {
+    if (!searchQuery || lastTradePrice === 0) {
+      alert("Please select a symbol and ensure LTP is available.");
+      return;
+    }
+
+    // Create a new row object
+    const newRow = {
+      symbol: searchQuery, // Use the search query as the symbol
+      ltp: lastTradePrice, // Use the last trade price
+    };
+
+    // Add the new row to the state
+    setRows((prevRows) => [...prevRows, newRow]);
+  };
 
   // Function to parse CSV text into an array of objects
   const parseCSV = (csvText) => {
@@ -266,6 +285,15 @@ const Homepage = () => {
       alert("An error occurred while logging in all clients.");
     }
   };
+  const handleBuy = (symbol, ltp) => {
+    console.log(`Buying ${symbol} at price ${ltp}`);
+    // Implement your buy logic here (e.g., make an API call or update state)
+  };
+
+  const handleSell = (symbol, ltp) => {
+    console.log(`Selling ${symbol} at price ${ltp}`);
+    // Implement your sell logic here (e.g., make an API call or update state)
+  };
 
   const handleLtpChange = (event) => {};
 
@@ -319,15 +347,53 @@ const Homepage = () => {
         <div className="lastTradePrice-container">{lastTradePrice}</div>
 
         {/* Container for Quantity, Buy and Sell buttons */}
-        <div className="action-container">
-          <input
-            type="text"
-            placeholder="Enter Quantity"
-            className="quantity-input"
-          />
-          <button className="buy-button">Buy</button>
-          <button className="sell-button">Sell</button>
-        </div>
+
+        <input
+          type="text"
+          placeholder="Enter Quantity"
+          className="quantity-input"
+        />
+        <button className="buy-button">Buy</button>
+        <button className="sell-button">Sell</button>
+        <button className="addNew-button" onClick={handleAddRow}>
+          Add Row
+        </button>
+
+        {/* Display added rows */}
+        {rows.length > 0 && (
+          <table className="added-rows-table">
+            <thead>
+              <tr>
+                <th>Symbol</th>
+                <th>LTP</th>
+                <th>Action</th> {/* Add a new header for the action buttons */}
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, index) => (
+                <tr key={index}>
+                  <td>{row.symbol}</td>
+                  <td>{row.ltp}</td>
+                  <td>
+                    {/* Add Buy and Sell buttons for each row */}
+                    <button
+                      className="buy-button"
+                      onClick={() => handleBuy(row.symbol, row.ltp)}
+                    >
+                      Buy
+                    </button>
+                    <button
+                      className="sell-button"
+                      onClick={() => handleSell(row.symbol, row.ltp)}
+                    >
+                      Sell
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
 
         {/* Results will be displayed in this scrollable container */}
         <div className="search-results">

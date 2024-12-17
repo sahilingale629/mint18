@@ -21,8 +21,15 @@ body {
 }
 
 /* Search Bar */
-.search-input {
+.search-bar-container {
+  display: inline-grid;
+  grid-template-columns: auto auto auto auto auto auto;
   width: 100%;
+  /* flex-direction: row; */
+}
+
+.search-input {
+  width: 85%;
   padding: 12px;
   font-size: 1.2rem;
   border: 2px solid #32cd32;
@@ -44,16 +51,34 @@ body {
 }
 
 /* Table Styles */
+
+/* Table Container for Scroll */
+.table-container {
+  max-height: 400px; /* Limit the height to fit 8 rows (adjust as needed) */
+  overflow-y: auto; /* Enable vertical scrolling */
+  border: 2px solid #32cd32; /* Optional: Border for clarity */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow for a sleek look */
+  background: rgba(
+    27,
+    31,
+    58,
+    0.95
+  ); /* Slightly transparent background for elegance */
+}
+
+/* Table Styling (remains unchanged or as defined earlier) */
 .result-table {
   width: 100%;
-  margin-top: 20px;
   border-collapse: collapse;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  background: rgba(27, 31, 58, 0.9);
+  background: transparent; /* Background inherits from the container */
 }
 
 .result-table th {
-  background-color: #32cd32;
+  position: sticky; /* Keep header visible while scrolling */
+  top: 0;
+  z-index: 1;
+  background-color: #32cd32; /* Sticky header color */
   color: white;
   padding: 15px;
   font-size: 1.2rem;
@@ -129,10 +154,8 @@ body {
   font-size: 24px;
   font-weight: bold;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 20px;
+
+  width: 75%;
 }
 
 .lastTradePrice-container .price {
@@ -182,9 +205,92 @@ body {
 }
 
 /* Add some space between different sections */
-.action-container {
-  margin-top: 30px;
+.added-rows-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  font-family: Arial, sans-serif;
 }
+
+.added-rows-table th,
+.added-rows-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+}
+
+/* Style for table header */
+.added-rows-table th {
+  background-color: #007bff !important; /* Ensure blue background */
+  color: #ffffff !important; /* White font color */
+  font-weight: bold !important;
+  font-size: 16px !important;
+  text-align: center; /* Center-align text */
+}
+
+/* Style for table rows */
+.added-rows-table td {
+  font-size: 14px;
+  color: #ccc !important; /* Ensure dark text for rows */
+}
+
+/* Optional: Add border spacing for better layout */
+.added-rows-table {
+  border-spacing: 0;
+  border: 2px solid #ccc;
+}
+
+.buy-button {
+  background-color: #28a745; /* Green background for Buy */
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.sell-button {
+  background-color: #dc3545; /* Red background for Sell */
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.buy-button:hover,
+.sell-button:hover {
+  opacity: 0.8; /* Slightly transparent on hover */
+}
+
+.added-rows-table td button {
+  margin: 5px;
+}
+.buy-button {
+  background-color: #28a745; /* Green background for Buy */
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.sell-button {
+  background-color: #dc3545; /* Red background for Sell */
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+
+.buy-button:hover,
+.sell-button:hover {
+  opacity: 0.8; /* Slightly transparent on hover */
+}
+
+.added-rows-table td button {
+  margin: 5px;
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {
